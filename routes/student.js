@@ -1,6 +1,7 @@
 var express = require('express');
 const query = require("../db");
 const moment = require("moment");
+const {inlog} = require("../utils");
 var router = express.Router();
 
 /**
@@ -8,6 +9,7 @@ var router = express.Router();
  */
 router.get('/',async (req, res, next) => {
     try {
+        await inlog(req);
         let seres = await query('select * from sys_student');
         res.send({
             code: 200,

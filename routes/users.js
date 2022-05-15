@@ -2,7 +2,7 @@ var express = require('express');
 const query = require("../db");
 const {PWD_SALT,PRIVATE_KEY,EXPIRED}=require('../utils/constant')
 const jwt=require('jsonwebtoken')
-const {md5} = require("../utils");
+const {md5, inlog} = require("../utils");
 const {response} = require("express");
 var router = express.Router();
 
@@ -96,6 +96,7 @@ router.post('/register',async (req, res, next) => {
  */
 router.get('/',async (req,res, next) => {
   try {
+    await inlog(req);
     let seres=await query('select * from admin_user');
     for (const item of seres) {
       let renj=await query('select * from admin_user_role where uid=?',[item.id]);
@@ -117,6 +118,7 @@ router.get('/',async (req,res, next) => {
  */
 router.get('/role',async (req,res, next) => {
   try {
+    await inlog(req);
     let resse=await query('select * from admin_role');
     res.send({
       code: 200,
@@ -135,6 +137,7 @@ router.get('/role',async (req,res, next) => {
 router.put('/status',async (req, res, next) => {
   let {enabled,username}=req.body;
   try {
+    await inlog(req);
     let mk;
     if(enabled=="true"){
       mk=0;
@@ -177,6 +180,7 @@ router.put('/editus',async (req, res, next)=>{
   let {id,username,name,phone,email,roles}=req.body;
   console.log(roles);
   try {
+    await inlog(req);
     let rese=await query('select * from admin_user where name = ?',[name]);
     if(rese.length!==0){
       res.send({

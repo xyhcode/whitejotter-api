@@ -1,6 +1,7 @@
 var express = require('express');
 const query = require("../db");
 const moment = require("moment");
+const {inlog} = require("../utils");
 var router = express.Router();
 
 /**
@@ -89,6 +90,7 @@ router.get('/search',async (req,res,next) => {
  */
 router.post('/delete',async (req, res, next) => {
     try {
+        await inlog(req);
         let debooks = await query('delete from sys_book where id =?', [req.body.id]);
         res.send({
             code: 200,
@@ -106,6 +108,7 @@ router.post('/delete',async (req, res, next) => {
 router.post('/editadd',async (req, res, next) => {
     let {id, cover, title, author, date, press, abs, category} = req.body;
     try {
+        await inlog(req);
         console.log(id, cover, title, author, date, press, abs, category);
         let time=moment(new Date()).format('yyyy-MM-DD HH:mm:ss');
         let msg = '';

@@ -6,6 +6,7 @@ var logger = require('morgan');
 const cors=require('cors');
 const {PRIVATE_KEY}=require('./utils/constant');
 const {expressjwt:expressJWT} = require("express-jwt");
+var expressip = require('express-ip');
 
 
 var atricleRouter = require('./routes/atricle');
@@ -24,13 +25,13 @@ var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
-
 app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(expressip().getIpInfoMiddleware);
 
 app.use(expressJWT({
   //自定义的秘钥 constant.js
@@ -43,7 +44,10 @@ app.use(expressJWT({
     '/api/article/img/upimg',
     '/api/books',
     /^\/api\/article\/.*/,
-      '/menu/authentication'
+      /^\/api\/books\/.*\/cate/,
+      '/menu/authentication',
+      '/api/users/respassword',
+      '/api/books/search'
   ]
 }))
 

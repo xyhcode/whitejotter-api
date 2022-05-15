@@ -2,6 +2,7 @@ var express = require('express');
 const query = require("../db");
 const {upload} = require("../utils/index");
 const moment = require("moment");
+const {inlog} = require("../utils");
 var router = express.Router();
 
 /**
@@ -69,6 +70,7 @@ router.post('/create',async (req, res, next) => {
     console.log(id, articleTitle, articleContentMd, articleContentHtml, articleAbstract, articleCover, articleDate,usname);
     let msg='';
     try {
+        await inlog(req);
         let time=moment(new Date()).format('yyyy-MM-DD HH:mm:ss');
         if (id === undefined) {
             let adarticle = await query('insert into sys_article(article_title,article_content_html,article_content_md,article_abstract,article_cover,create_time,is_delete,username)values(?,?,?,?,?,?,?,?)',[articleTitle,articleContentHtml,articleContentMd,articleAbstract,articleCover,time,0,usname]);
@@ -93,6 +95,7 @@ router.post('/create',async (req, res, next) => {
 router.delete('/del/:id',async (req,res,next) => {
     let arid=req.params.id;
     try {
+        await inlog(req);
         let deres=await query('delete from sys_article where id =?',[arid]);
         res.send({
             code: 200,

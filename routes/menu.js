@@ -1,12 +1,15 @@
 var express = require('express');
 const query = require("../db");
+const {inlog} = require("../utils");
 var router = express.Router();
+
 
 /**
  * 获取菜单栏
  */
 router.get('/',async (req,res,next) => {
     try {
+        await inlog(req);
         let sere=await query('select * from admin_menu where parent_id=?',[0]);
         for (const item of sere) {
             let nk=await query('select * from admin_menu where parent_id=?',item.id);
@@ -34,6 +37,5 @@ router.get('/authentication',async (req,res,next) => {
     }catch (e) {
         next(e);
     }
-})
-
+});
 module.exports=router
