@@ -16,6 +16,7 @@ var bannerRouter = require('./routes/banner');
 var studentRouter = require('./routes/student');
 var newRouter = require('./routes/new');
 var orderRouter = require('./routes/order');
+var messagesRouter = require('./routes/message')
 
 
 var app = express();
@@ -54,6 +55,7 @@ app.use('/api/banner', bannerRouter);
 app.use('/api/student', studentRouter);
 app.use('/api/new', newRouter);
 app.use('/api/order',orderRouter)
+app.use('/api/message',messagesRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
