@@ -17,7 +17,8 @@ var bannerRouter = require('./routes/banner');
 var studentRouter = require('./routes/student');
 var newRouter = require('./routes/new');
 var orderRouter = require('./routes/order');
-var messagesRouter = require('./routes/message')
+var messagesRouter = require('./routes/message');
+var logRouter=require('./routes/log');
 
 
 var app = express();
@@ -45,7 +46,6 @@ app.use(expressJWT({
     '/api/books',
     /^\/api\/article\/.*/,
       /^\/api\/books\/.*\/cate/,
-      '/menu/authentication',
       '/api/users/respassword',
       '/api/books/search'
   ]
@@ -60,6 +60,7 @@ app.use('/api/student', studentRouter);
 app.use('/api/new', newRouter);
 app.use('/api/order',orderRouter)
 app.use('/api/message',messagesRouter)
+app.use('/api/log',logRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

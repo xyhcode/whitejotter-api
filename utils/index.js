@@ -35,12 +35,18 @@ function md5(str){
 
 //添加日志
 async function inlog(req) {
-    let usname=req.auth.sinresult.username;
+    //获取用户名
+    let usname=req.auth.sinresult.username || '游客';
+    //时间格式化
     let time=moment(new Date()).format('yyyy-MM-DD HH:mm:ss');
+    //获取用户IP
     let ip= req.ipInfo.ip.substr(7);
+    //获取请求的地址
     let path=req.originalUrl;
+    //获取请求参数
     let parm=req.query;
     let tsate=false;
+    //判断对象是否为空
     for (const parmKey in parm) {
         tsate=true
     }
@@ -49,6 +55,7 @@ async function inlog(req) {
     }else{
         parm=parm;
     }
+    //获取请求的方法
     let method=req.method;
     console.log(usname,time,ip,path,parm);
     try {
